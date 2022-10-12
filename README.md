@@ -2,19 +2,14 @@
 
 Denne oppgaven er en innlevering i Algoritmer og Datastrukturer. 
 Oppgaven er levert av følgende studenter:
-* Navn Navnesen, S123456, s123456@oslomet.no
+* Navn Zulfeqar Shirzadeh, S351922, s351922@oslomet.no
 * ...
 
 # Arbeidsfordeling
-
-I oppgaven har vi hatt følgende arbeidsfordeling:
-* Per har hatt hovedansvar for oppgave 1, 3, og 5. 
-* Else har hatt hovedansvar for oppgave 2, 4, og 6. 
-* Fatima har hatt hovedansvar for oppgave 7 og 8. 
-* Vi har i fellesskap løst oppgave 10. 
+jeg har jobbet alene 
 
 # Oppgavebeskrivelse
-
-I oppgave 1 så gikk vi frem ved å ...
-
-I oppgave 2 så brukte vi en ... til å ...
+i oppgave1 returnere jeg først antall ved hjelp av en methode og deretter returner jeg tom() for å sjekke listen. Deretter sjekker jeg om tabbelen min er tom hvis den var tøm så sender jeg en feilmelding(Tabbelen a er null!). jeg bruker da en forløkke for å gå gjennom listen min og setter en variabel er lik hode og plusse på antall. 
+i oppgave2 har vi to del. i den første delen skulle jeg returnere string med liste og den omvendte av Stringen. da sjekker jeg først hvis jeg har tøm tabell så sendes det et [] og stoppet searching ellers så gikk vi gjennom listen vår ved hjelp current som pekte først på hode. måten vi flytet pekeret var å bruke current.neste til at neste var null og printet ut listen. får å skrive listen omvendt er å bare bruke sammen metode altså bruke pekeren fra slutten av listen og skrive ut. her er det viktig å nevnet at jeg bruke StringBulder som ble bedt om i oppgaven. i den andre delen av oppgave 2 var det å legge til element i listen. først sjekker vi om at vi har ikke nullverdier siden det er ikke tillat som ble bedt i oppgave delen. da sjekker jeg om listen er tøm hvis den er tom da blir den ny-verdien min satt i lsiten ved hjelp peker som peker til null på begge sider. og setter til slutt hode er lik den nyeverdien. også på samme måte legger vi den på siste plass ved hjelp av hale og pekeret. 
+oppgave3 da skal vi finne og hente noden vår. i den første delen sjekker om lovighet og deretter skal vi sjekket om antall. hvis vi er i antall/2 da skal vi sette pekkeren eller current er lik hode og flytte på den, ved hjelp av neste peker. eller hvis indeks er større enn antall/2 da sstarter vi searching fra hale. deretter skrive kodn og når vi fant indeks så returnerer vi det. i andre methoden henter vi finnnoden methoden og returner vi, etter at vi kontrolert indeksen. (koden er kopiert fra kompendia se kilde kode). i den andre delen skal vi sjekke listens lengde og om lovlighet til verdier i listen. og da er det tre type vi sjekker antall <  0 eller  antall >0 og eller antall = 0, og sender melding. etterpå kaller vi methoden vå inn i sublisten vi har laget. siden vi kaller inn fra og til da er det logisk at sublister kontrollerer fra og til i listen. sublister ta til seg inn verdier fra og til lengden og ti slutt returneres listen. i subliste sjekker vi altså to tilfeller enten lengde storre en 1 eller mindre enn 0. 
+i oppgave 4 så var det slik at vi har først sjekket om at indeks er ikke - eller null da sendte vi return -1, deretter beynte med en forløkke og gikk vi gjenoom listen og hvis verdien var det som vi trengte returnerte vi verdienindeks ellers vi fant ikke så håpet på neste verdi og sjekket deden hvis vi fant ikke verdien da returnerte vi -1.
