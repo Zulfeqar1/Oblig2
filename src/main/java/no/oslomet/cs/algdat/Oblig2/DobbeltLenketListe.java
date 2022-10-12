@@ -104,7 +104,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             ny_Node.neste = null;
             ny_Node.forrige = null;
             hode = ny_Node;
-
+        }else if(hale.neste != null){
+            hale = hale.neste;
+            hale.neste = ny_Node;
+        }
+        ny_Node.forrige = hale;
+        antall ++;
+        endringer++;
+        return true;
     }
 
     @Override
