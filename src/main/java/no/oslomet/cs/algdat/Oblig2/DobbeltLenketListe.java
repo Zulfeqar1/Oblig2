@@ -127,14 +127,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public T hent(int indeks) {
         throw new UnsupportedOperationException();
     }
-    private Node<T> finnNde(int indeks){
-        if(hode == null){
-            return hode;
-        }
-        Node<T> current = hode;
-        for(int i=0; i<antall; i++){
-           
-        }
+
+    private Node<T> finnNde(int indeks) {
+        indeksKontroll(indeks,false);
+
+
+        Node<T> current;
+            if (indeks <= antall / 2) {
+                current = hode;
+                int i= 0;
+                while (i < indeks) {
+                    current = current.neste;
+                    i++;
+                }else{
+                    current = hale;
+                    int i =antall-1;
+
+                    while (i>indeks){
+                        current = current.forrige;
+                    }
+                }
+
+        }return current;
+    }
 
     @Override
     public int indeksTil(T verdi) {
