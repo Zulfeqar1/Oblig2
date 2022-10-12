@@ -85,11 +85,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return liste;
         }
 
-        Node<T> newnode  = finnNode(fra);
+        Node<T> current  = finnNode(fra);
 
         while (lengde>0){
-            liste.leggInn(newnode.verdi);
-            newnode = newnode.neste;
+            liste.leggInn(current.verdi);
+            current = current.neste;
             lengde--;
         }
         return liste;
@@ -149,7 +149,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+        //koppiert en del kode fra kompednie(program kode 3,2,2 g)
+        if (indeksTil(verdi) == -1){
+            return false;
+        }else {
+            return true;
+        }
+
     }
 
     @Override
@@ -165,27 +171,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> current;
             if (indeks <= antall / 2) {
                 current = hode;
-                int i = 0;
-                while (i < indeks) {
-                    current = current.neste;
-                    i++;
+               for(int i=0; i<indeks; i++){
+                   current = current.neste;
                 }
             }else{
                     current = hale;
-                    int i =antall-1;
-
-                    while (i>indeks){
-                        current = current.forrige;
-                        i--;
+                    for(int i=antall-1; i>indeks; i--){
+                        current =current.neste;
                     }
-                }
+            }
         return current;
         }
 
 
     @Override
-    public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+    public int indeksTil(T verdi) {//har fått tips via denne netsiden (https://www.cs.hioa.no/~ulfu/appolonius/kildekode/TabellListe.html)
+        if (antall <= 0 || verdi == null) {
+            return -1;
+        }
+        Node<T> p = hode;
+        for (int i = 0; i < antall; i++) {
+            if (p.verdi.equals(verdi)) {
+                return i;
+            }
+            p = p.neste;
+        }
+        return -1;
     }
 
     @Override
@@ -195,7 +206,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         Node<T> newNode = finnNode(indeks);
         T gammelVerdi = newNode.verdi;
-
         newNode.verdi = nyverdi;
         endringer ++;
         return gammelVerdi;
