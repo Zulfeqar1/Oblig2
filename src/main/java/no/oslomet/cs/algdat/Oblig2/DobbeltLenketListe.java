@@ -126,10 +126,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T hent(int indeks) {// kopiert fra kampendia (programkode 3,3,3 b)
         indeksKontroll(indeks,false);
-        return finnNde(indeks).verdi;
+        return finnNode(indeks).verdi;
     }
 
-    private Node<T> finnNde(int indeks) {
+    private Node<T> finnNode(int indeks) {
         indeksKontroll(indeks,false);
 
 
@@ -160,7 +160,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+        nyverdi = Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verdier!");
+        indeksKontroll(indeks, false);  // Se Liste, false: indeks = antall er ulovlig
+
+        Node<T> newNode = finnNode(indeks);
+        T gammelVerdi = newNode.verdi;
+
+        newNode.verdi = nyverdi;
+        endringer ++;
+        return gammelVerdi;
     }
 
     @Override
