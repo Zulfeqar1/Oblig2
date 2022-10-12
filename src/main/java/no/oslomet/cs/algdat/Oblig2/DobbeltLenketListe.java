@@ -102,17 +102,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (antall == 0 && hale == null && hode == null) {
             hode = newnode;
             hale = hode;
-            endringer++;
-            antall++;
-            return true;
         } else {
             newnode.forrige = hale;
             hale.neste = newnode;
+            newnode.forrige = hale;
             hale = newnode;
-            endringer++;
-            antall++;
-            return true;
         }
+        endringer++;
+        antall++;
+        return true;
     }
 
     @Override
@@ -129,6 +127,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public T hent(int indeks) {
         throw new UnsupportedOperationException();
     }
+    private Node<T> finnNde(int indeks){
+        if(hode == null){
+            return hode;
+        }
+        Node<T> current = hode;
+        for(int i=0; i<antall; i++){
+           
+        }
 
     @Override
     public int indeksTil(T verdi) {
@@ -172,7 +178,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 liste.append(current.verdi);
             } else {
                 liste.append(current.verdi);
-                liste.append(",");
+                liste.append(", ");
             }
             current = current.neste;
         }
@@ -196,7 +202,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 liste.append(current.verdi);
             } else {
                 liste.append(current.verdi);
-                liste.append(",");
+                liste.append(", ");
             }
             current = current.forrige;
         }
