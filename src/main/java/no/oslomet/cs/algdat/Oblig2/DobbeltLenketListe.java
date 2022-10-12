@@ -97,18 +97,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean leggInn(T verdi) {
         verdi = Objects.requireNonNull(verdi, "ikke tillat med null");
 
-        Node<T> p = new Node<>(verdi);
+        Node<T> newnode = new Node<>(verdi);
 
         if (antall == 0 && hale == null && hode == null) {
-            hode = p;
+            hode = newnode;
             hale = hode;
             endringer++;
             antall++;
             return true;
         } else {
-            p.forrige = hale;
-            hale.neste = p;
-            hale = p;
+            newnode.forrige = hale;
+            hale.neste = newnode;
+            hale = newnode;
             endringer++;
             antall++;
             return true;
@@ -157,7 +157,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        StringBuilder liste = new StringBuilder("[");
+        StringBuilder liste = new StringBuilder();
+        liste.append("[");
         Node<T> current =hode;
        /* while(current == null) {
             liste.append("]");
@@ -180,7 +181,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public String omvendtString() {
-        StringBuilder liste = new StringBuilder("[");
+        StringBuilder liste = new StringBuilder();
+        liste.append("[");
         Node<T> current = hale;
         /*
         while (current == null || antall == 0){
