@@ -97,21 +97,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean leggInn(T verdi) {
         verdi = Objects.requireNonNull(verdi, "ikke tillat med null");
 
-        Node<T> ny_Node = new Node<>(verdi);
+        Node<T> p = new Node<>(verdi);
 
-        if(antall <= 0){
-            hode = hale;
-            ny_Node.neste = null;
-            ny_Node.forrige = null;
-            hode = ny_Node;
-        }else if(hale.neste != null){
-            hale = hale.neste;
-            hale.neste = ny_Node;
+        if (antall == 0 && hale == null && hode == null) {
+            hode = p;
+            hale = hode;
+            endringer++;
+            antall++;
+            return true;
+        } else {
+            p.forrige = hale;
+            hale.neste = p;
+            hale = p;
+            endringer++;
+            antall++;
+            return true;
         }
-        ny_Node.forrige = hale;
-        antall ++;
-        endringer++;
-        return true;
     }
 
     @Override
@@ -158,35 +159,47 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public String toString() {
         StringBuilder liste = new StringBuilder("[");
         Node<T> current =hode;
-        while(current == null) {
+       /* while(current == null) {
             liste.append("]");
             System.out.println(liste);
             break;
         }
-        while(current != null){
-            if(current == hale){
-                current = current.neste;
+
+        */
+        while(current != null) {
+            if (current == hale) {
+                liste.append(current.verdi);
+            } else {
+                liste.append(current.verdi);
+                liste.append(",");
             }
-            liste.append(current.verdi+",");
+            current = current.neste;
         }
+        liste.append("]");
         return liste.toString();
     }
 
     public String omvendtString() {
         StringBuilder liste = new StringBuilder("[");
         Node<T> current = hale;
+        /*
         while (current == null || antall == 0){
             System.out.println(liste.append("]"));
             break;
         }
-        while(current != null){
-            if(current == hode){
-                current = current.forrige;
-            }
-            liste.append(current.verdi+",");
-        }
-        return liste.toString();
 
+         */
+        while(current != null) {
+            if (current == hode) {
+                liste.append(current.verdi);
+            } else {
+                liste.append(current.verdi);
+                liste.append(",");
+            }
+            current = current.forrige;
+        }
+        liste.append("]");
+        return liste.toString();
     }
 
     @Override
