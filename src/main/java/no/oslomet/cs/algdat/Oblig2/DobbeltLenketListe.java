@@ -124,8 +124,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+    public T hent(int indeks) {// kopiert fra kampendia (programkode 3,3,3 b)
+        indeksKontroll(indeks,false);
+        return finnNde(indeks).verdi;
     }
 
     private Node<T> finnNde(int indeks) {
