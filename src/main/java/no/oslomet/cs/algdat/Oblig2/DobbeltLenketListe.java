@@ -156,7 +156,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        StringBuilder liste = new StringBuilder("[");
+
     }
 
     @Override
