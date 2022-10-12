@@ -135,11 +135,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> current;
             if (indeks <= antall / 2) {
                 current = hode;
-                int i= 0;
+                int i = 0;
                 while (i < indeks) {
                     current = current.neste;
                     i++;
-                }else{
+                }
+            }else{
                     current = hale;
                     int i =antall-1;
 
@@ -147,9 +148,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                         current = current.forrige;
                     }
                 }
+        return current;
+        }
 
-        }return current;
-    }
 
     @Override
     public int indeksTil(T verdi) {
