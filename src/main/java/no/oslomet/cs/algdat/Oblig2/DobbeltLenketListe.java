@@ -239,7 +239,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi == null)return false;
+
+        Node<T> current = hode;
+        while(current != null){
+            if(current.verdi.equals(verdi))break;
+            current = current.neste;
+        }
+        for (int i = 1; i<antall; i++){
+            if(i == antall){
+            }else if(!current.verdi.equals(verdi)){return false;}
+        }
+        if(antall== 1){
+            hode = hale = null;
+        }else if(current.forrige == null){
+            hode.neste.forrige = null;
+            hode = hode.neste;
+        }else if(current.neste == null){
+            hale.forrige.neste = null;
+            hale = hale.forrige;
+        }
+        else {
+            current.forrige.neste = current.neste;
+            current.neste.forrige = current.forrige;
+        }
+        antall--;
+        endringer++;
+        return true;
+
     }
 
     @Override
