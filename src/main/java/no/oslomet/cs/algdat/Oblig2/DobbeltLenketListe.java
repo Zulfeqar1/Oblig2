@@ -244,7 +244,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T fjern(int indeks) {
-       //sjekker for indeks
+       //sjekker for indeks kaster ikke noe feil melding siden oppgaven ikke spurt om
         indeksKontroll(indeks, false);
 
         Node<T> current = hode;
