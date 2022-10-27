@@ -330,11 +330,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        Node<T> node = hode;
+        Node<T> node = hode.neste;
         while(node != null){
-            node = node.neste;
             node.verdi = null;
             node.forrige.neste = null;
+            node = node.neste;
         }
         hode = hale = null;
         antall = 0;
