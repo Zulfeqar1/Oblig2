@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -58,16 +56,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 if (a[i] != null) {
                     hode = new Node<>(a[i]);
                     antall++;
+                    hale = hode;
                     break;
                 }
             }
-            hale = hode;
             if (hale != null) {
                 i++;
                 for(; i<a.length; i++){
                     if (a[i] != null) {
                         hale.neste = new Node<>(a[i], hale, null);
-                        hale = hode.neste;
+                        hale = hale.neste;
                         antall++;
                     }
                 }
@@ -79,22 +77,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         fratilkontroll(antall, fra, til);
 
         Liste<T> liste = new DobbeltLenketListe<>();
-        int lengde = til- fra;
-
-        if(lengde < 1){
+        int lengde = til - fra;
+        if (lengde < 1) {
             return liste;
         }
-
-        Node<T> current  = finnNode(fra);
-
-        while (lengde>0){
-            liste.leggInn(current.verdi);
-            current = current.neste;
+        Node<T> hjelpeNOde = finnNode(fra);
+        while (lengde > 0) {
+            liste.leggInn(hjelpeNOde.verdi);
+            hjelpeNOde = hjelpeNOde.neste;
             lengde--;
         }
         return liste;
-    }
 
+    }
     //vi bruekr her en hjelpemetode
     private void fratilkontroll(int antall, int fra, int til) {
         if (fra < 0) {                                // fra er negativ
@@ -132,7 +127,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hode = newnode;
             hale = hode;
         } else {
-            newnode.forrige = hale;
             hale.neste = newnode;
             newnode.forrige = hale;
             hale = newnode;
@@ -146,31 +140,61 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi,"Ikke tillat med null");
         //1- sjekk for negativ og indeks mindre enn antall
-        if(indeks < 0 || indeks > antall){
+        if(indeks < 0 || antall < indeks){
             verdi = Objects.requireNonNull(verdi,"indeks mindre enn null, negativ og større enn antall er ikke lov");
         }
-       // indeksKontroll(indeks, true);
+        indeksKontroll(indeks, true);
 
         //tom liste
-        if(antall ==  0 && indeks == 0){
-            hode = hale = new Node<T>(verdi, null, null);
-        }else if(indeks == 0){
-            Node<T> newNode = new Node<T>(verdi,null,hode);
-            hode.neste.forrige = hode;
-
-        }else if(indeks == antall) {
-            hale = new Node<T>(verdi, hale, null);
-            hale.forrige.neste = hale;
-        }else {
-            Node<T> node = hode;
-            for(int i=0; i<indeks; i++){
-                node = node.neste;
-                node = new Node<T>(verdi,node.forrige,node);
-                node.neste.forrige = node.forrige.neste=node;
-            }
-            antall++;
-            endringer++;
+        if(antall == 0) {
+            leggInn(verdi);
+            return;
         }
+
+        else if(indeks == 0){
+            Node<T> ny = new Node<>(verdi);
+            ny.neste = hode;
+            hode.forrige = ny;
+            hode = ny;
+
+        }
+
+        else if(indeks == antall){
+            Node<T> ny = new Node<>(verdi);
+            ny.forrige = hale;
+            hale.neste = ny;
+            hale = ny;
+        }
+
+        else if(indeks > antall/2){
+            Node<T> aktuell = hode;
+            for(int i = 0; i < indeks-1; i++){
+                aktuell = aktuell.neste;
+            }
+
+            Node<T> ny = new Node<>(verdi);
+            ny.neste = aktuell.neste;
+            ny.forrige = aktuell;
+            aktuell.neste = ny;
+            ny.neste.forrige = ny;
+        }
+
+        else{
+            Node<T> aktuell = hale;
+            for(int i = antall; i > indeks; i--){
+                aktuell = aktuell.forrige;
+            }
+
+            Node<T> ny = new Node<>(verdi);
+            ny.neste = aktuell.neste;
+            ny.forrige = aktuell;
+            aktuell.neste = ny;
+            ny.neste.forrige = ny;
+
+
+        }
+        antall++;
+        endringer++;
     }
 
     @Override
@@ -185,9 +209,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public T hent(int indeks) {// kopiert fra kampendia (programkode 3,3,3 b)
+    public T hent(int indeks) {
         indeksKontroll(indeks,false);
-        return finnNode(indeks).verdi;
+        Node<T> finnernode=finnNode(indeks);
+        return finnernode.verdi;
     }
 
     private Node<T> finnNode(int indeks) {
@@ -197,13 +222,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> current;
             if (indeks <= antall / 2) {
                 current = hode;
-               for(int i=0; i<indeks; i++){
+                int i=0;
+               while(i<indeks){
                    current = current.neste;
+                   i++;
                 }
             }else{
                     current = hale;
-                    for(int i=antall-1; i>indeks; i--){
-                        current =current.neste;
+                int i=antall-1;
+                    while(i>indeks){
+                        current =current.forrige;
+                        i--;
                     }
             }
         return current;
@@ -227,7 +256,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        nyverdi = Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verdier!");
+        if(nyverdi == null ) throw new NullPointerException("Ikke tillatt med null-verdier!");
         indeksKontroll(indeks, false);  // Se Liste, false: indeks = antall er ulovlig
 
         Node<T> newNode = finnNode(indeks);
@@ -240,28 +269,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public boolean fjern(T verdi) {
         if (verdi == null)return false;
-
         Node<T> current = hode;
-        while(current != null){
-            if(current.verdi.equals(verdi))break;
-            current = current.neste;
+        int i=1;
+
+        while (!current.verdi.equals(verdi) && i<antall){
+            current=current.neste;
+            i++;
         }
-        for (int i = 1; i<antall; i++){
-            if(i == antall){
-            }else if(!current.verdi.equals(verdi)){return false;}
-        }
-        if(antall== 1){
-            hode = hale = null;
-        }else if(current.forrige == null){
-            hode.neste.forrige = null;
-            hode = hode.neste;
-        }else if(current.neste == null){
-            hale.forrige.neste = null;
-            hale = hale.forrige;
+        if (i==antall && !current.verdi.equals(verdi)){return false;}
+        if (antall==1){
+            hode=null;
+            hale=null;
+        } else if (current.forrige==null) {
+            hode.neste.forrige=null;
+            hode=hode.neste;
+        } else if (current.neste==null) {
+            hale.forrige.neste=null;
+            hale=hale.forrige;
         }
         else {
-            current.forrige.neste = current.neste;
-            current.neste.forrige = current.forrige;
+            current.forrige.neste=current.neste;
+            current.neste.forrige=current.forrige;
         }
         antall--;
         endringer++;
@@ -274,57 +302,66 @@ public class DobbeltLenketListe<T> implements Liste<T> {
        //sjekker for indeks kaster ikke noe feil melding siden oppgaven ikke spurt om
         indeksKontroll(indeks, false);
 
-        Node<T> current = hode;
-        if(antall == 1){
+        T current;
+        if(antall == 1){ // hvis et element
+            current = hode.verdi;
             hode = hale = null;
         }else if(indeks == 0){
+            current = hode.verdi;
             hode.neste.forrige = null;
             hode = hode.neste;
         }else if(indeks == antall-1){
-            current = hale;
-            hale.neste.forrige = null;
+            current = hale.verdi;
+            hale.forrige.neste = null;
             hale = hale.forrige;
         }else{
-            for(int i=0; i<indeks; i++) {
-                current = current.neste;
+            Node<T> newcurrent=hode;
+            for (int i=0; i<indeks; i++){
+                newcurrent=newcurrent.neste;
             }
-                current.forrige.neste = current.neste;
-                current.neste.forrige = current.forrige;
-            }
+            current= newcurrent.verdi;
+            newcurrent.forrige.neste=newcurrent.neste;
+            newcurrent.neste.forrige=newcurrent.forrige;
+        }
         antall--;
         endringer++;
-        return (T) current;
+        return current;
     }
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
+        Node<T> node = hode;
+        while(node != null){
+            node = node.neste;
+            node.verdi = null;
+            node.forrige.neste = null;
+        }
+        hode = hale = null;
+        antall = 0;
+        endringer++;
+
     }
 
     @Override
     public String toString() {
         StringBuilder liste = new StringBuilder();
         liste.append("[");
-        Node<T> current =hode;
-       /* while(current == null) {
+        if (!tom()) {
+            Node<T> current = hode;
+            while (current != null) {
+                if (current == hale) {
+                    liste.append(current.verdi);
+                } else {
+                    liste.append(current.verdi);
+                    liste.append(", ");
+                }
+                current = current.neste;
+            }
+        }
             liste.append("]");
-            System.out.println(liste);
-            break;
+            return liste.toString();
         }
 
-        */
-        while(current != null) {
-            if (current == hale) {
-                liste.append(current.verdi);
-            } else {
-                liste.append(current.verdi);
-                liste.append(", ");
-            }
-            current = current.neste;
-        }
-        liste.append("]");
-        return liste.toString();
-    }
 
     public String omvendtString() {
         StringBuilder liste = new StringBuilder();
@@ -352,11 +389,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        return new DobbeltLenketListeIterator();
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks,false);
+        return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
@@ -371,7 +409,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+            denne=finnNode(indeks);
+            fjernOK=false;
+            iteratorendringer=endringer;
         }
 
         @Override
@@ -381,7 +421,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+            if (iteratorendringer!=endringer){
+                throw new ConcurrentModificationException("itrator og endringer er ikke like");
+            }
+            if (hasNext()!=true){
+                throw new NoSuchElementException("listen er tøm");
+            }
+            T verdi= denne.verdi;
+            denne=denne.neste;
+            fjernOK=true;
+            return verdi;
         }
 
         @Override
